@@ -42,10 +42,10 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
   <img src="https://img.shields.io/badge/Engine-06B6D4?style=for-the-badge&logoColor=white" alt="Engine" />
 </div>
 
-**• Streaming Tool-Call Cycle**  
-**• Parallel Tool Dispatch**  
-**• Exponential Backoff (429/529)**  
-**• Hard Token Limit Guard**
+**• Streaming tool-call cycle**  
+**• Parallel tool dispatch**  
+**• Backoff on 429/529**  
+**• Hard token limit guard**
 
 </td>
 <td width="25%" align="center" style="vertical-align: top; padding: 15px;">
@@ -56,8 +56,8 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
   <img src="https://img.shields.io/badge/Tools-10B981?style=for-the-badge&logoColor=white" alt="Tools" />
 </div>
 
-**• `read_file` · `write_file` · `edit_file`**  
-**• `run_bash` (120s, stdout+stderr)**  
+**• `read_file` / `write_file` / `edit_file`**  
+**• `run_bash` (120s timeout)**  
 **• `web_fetch` (HTML stripped)**  
 **• `web_search` (DuckDuckGo)**
 
@@ -70,10 +70,10 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
   <img src="https://img.shields.io/badge/Safety-F59E0B?style=for-the-badge&logoColor=white" alt="Safety" />
 </div>
 
-**• `default` - prompt before write/shell**  
+**• `default` - prompt on write/shell**  
 **• `auto` - allow all (CI/sandbox)**  
-**• `plan` - read-only review mode**  
-**• Sensitive path guard (`~/.ssh`, `~/.aws`)**
+**• `plan` - read-only mode**  
+**• Blocks `~/.ssh`, `~/.aws` reads**
 
 </td>
 <td width="25%" align="center" style="vertical-align: top; padding: 15px;">
@@ -84,10 +84,10 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
   <img src="https://img.shields.io/badge/Memory-8B5CF6?style=for-the-badge&logoColor=white" alt="Memory" />
 </div>
 
-**• Auto-compact at 80% context window**  
-**• JSONL session persistence**  
+**• Auto-compact at 80% context**  
+**• JSONL audit trail per session**  
 **• `AGENTS.md` / `USER.md` workspace**  
-**• Crash recovery - restart mid-session**
+**• Survives restarts via SQLite**
 
 </td>
 </tr>
@@ -102,8 +102,8 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 **• Telegram · Slack · Discord**  
 **• 2-method adapter interface**  
-**• 1 lock per peer (no pile-up)**  
-**• Block streaming for long replies**
+**• 1 lock per peer, no pile-up**  
+**• Chunked delivery for long replies**
 
 </td>
 <td width="25%" align="center" style="vertical-align: top; padding: 15px;">
@@ -117,7 +117,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Anthropic (Claude)**  
 **• OpenAI**  
 **• Any OpenAI-compatible endpoint**  
-**• OpenRouter, local Ollama, etc.**
+**• OpenRouter / local Ollama**
 
 </td>
 <td width="25%" align="center" style="vertical-align: top; padding: 15px;">
@@ -129,9 +129,9 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 </div>
 
 **• Each run is an isolated OS process**  
-**• No shared in-process state to corrupt**  
-**• Coordination state lives outside the process**  
-**• Resume exactly where the crash occurred**
+**• No shared in-process state**  
+**• Coordination state is external**  
+**• Resume where the crash occurred**
 
 </td>
 <td width="25%" align="center" style="vertical-align: top; padding: 15px;">
@@ -143,7 +143,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 </div>
 
 **• No `HTTP_PROXY` inheritance**  
-**• Opt-in proxy via `NANOCLAW_WEB_PROXY`**  
+**• Opt-in proxy via env var**  
 **• Credential path guard**  
 **• Denied command prefix matching**
 
