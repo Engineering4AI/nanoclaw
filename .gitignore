@@ -1,0 +1,9 @@
+.env
+.omc
+.venv
+
+*.local.md
+*.egg-info
+
+external/
+__pycache__/
