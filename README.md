@@ -153,6 +153,28 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 ---
 
+## Getting Your API Tokens
+
+You need two tokens: one for the LLM, one for the chat platform.
+
+**LLM (pick one)**
+
+| Provider | Where to get it | Env var |
+|---|---|---|
+| OpenRouter (recommended) | [openrouter.ai/keys](https://openrouter.ai/keys) - free tier available, access to all models | `OPENROUTER_API_KEY` |
+| Anthropic | [console.anthropic.com/keys](https://console.anthropic.com/keys) | `ANTHROPIC_API_KEY` |
+| OpenAI | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) | `OPENAI_API_KEY` |
+
+**Chat platform (pick one)**
+
+| Platform | Steps |
+|---|---|
+| Discord | [discord.com/developers/applications](https://discord.com/developers/applications) - New Application - Bot - Reset Token. Enable `Message Content Intent`. Invite bot with `bot` + `applications.commands` scopes. |
+| Telegram | Message [@BotFather](https://t.me/BotFather) on Telegram - `/newbot` - copy the token. |
+| Slack | [api.slack.com/apps](https://api.slack.com/apps) - Create App - Socket Mode on - add `chat:write` + `im:history` scopes - install to workspace. You need both `SLACK_BOT_TOKEN` (`xoxb-`) and `SLACK_APP_TOKEN` (`xapp-`). |
+
+---
+
 ## Quick Start
 
 ```bash
