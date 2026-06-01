@@ -1,0 +1,32 @@
+{
+  "name": "nanoclaw",
+  "version": "0.1.0",
+  "description": "Minimal agent runtime — Bun + TypeScript rewrite of the Python nanoclaw",
+  "module": "src/main.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src/",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@slack/bolt": "^4.0.0",
+    "discord.js": "^14.0.0",
+    "grammy": "^1.43.0",
+    "ink": "^5.0.0",
+    "micromatch": "^4.0.0",
+    "node-html-parser": "^7.0.0",
+    "openai": "^5.0.0",
+    "react": "^18.0.0",
+    "undici": "^7.0.0",
+    "yaml": "^2.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
+    "@types/micromatch": "^4.0.0",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}

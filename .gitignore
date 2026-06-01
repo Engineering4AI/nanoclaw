@@ -7,3 +7,14 @@
 
 external/
 __pycache__/
+
+# TypeScript / Bun
+node_modules/
+dist/
+bun.lockb
+*.js.map
+
+# Bun SQLite
+*.db
+*.db-shm
+*.db-wal

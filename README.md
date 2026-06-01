@@ -1,10 +1,10 @@
 # 🦞 NanoClaw
 
 > Your personal AI assistant - like Hermes or OpenClaw, but distilled to its essentials.  
-> **~1,500 lines of Python. No dashboard. No bloat. Just the loop.**
+> **~1,500 lines of TypeScript. No dashboard. No bloat. Just the loop.**
 
 <p>
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.11+-111827?style=for-the-badge&logo=python" alt="Python 3.11+" /></a>
+  <a href="https://bun.sh"><img src="https://img.shields.io/badge/Bun-1.x+-111827?style=for-the-badge&logo=bun" alt="Bun 1.x+" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-111827?style=for-the-badge" alt="License" /></a>
   <a href="#architecture"><img src="https://img.shields.io/badge/Lines-~1500-2563eb?style=for-the-badge" alt="Lines of code" /></a>
 </p>
@@ -14,7 +14,7 @@ User: "summarize the errors in app.log from the last 10 minutes"
 Bot:  [reads file] [runs grep] → "Found 3 ERROR lines: connection timeout (×2), OOM at 14:32"
 ```
 
-![NanoClaw in action](imgs/preface.png)
+![NanoClaw in action](legacy/imgs/preface.png)
 
 ---
 
@@ -182,12 +182,15 @@ You need two tokens: one for the LLM, one for the chat platform.
 ```bash
 git clone https://github.com/Engineering4AI/nanoclaw
 cd nanoclaw
-pip install -e ".[discord]"   # or [telegram] / [slack]
+bun install                    # core deps
+bun install grammy             # + Telegram adapter
+# bun install @slack/bolt      # + Slack adapter
+# bun install discord.js       # + Discord adapter
 
 cp .env.example .env
-# edit .env - set your API key + bot token
+# edit .env — set your API key + bot token
 
-python -m nanoclaw
+bun src/main.ts
 ```
 
 That's it. First run bootstraps `~/.nanoclaw/config.yaml` and workspace files automatically.
@@ -196,7 +199,7 @@ That's it. First run bootstraps `~/.nanoclaw/config.yaml` and workspace files au
 
 ## Configuration
 
-Everything lives in `.env` - no code changes needed:
+Everything lives in `.env` — no code changes needed:
 
 ```bash
 # LLM (default: OpenRouter)
@@ -232,7 +235,7 @@ flowchart TD
 
     subgraph Gateway
         R["Router\n(1 lock / peer)"]
-        SS[(SessionStore\nSQLite)]
+        SS[(SessionStore\nbun:sqlite)]
         R <--> SS
     end
 
@@ -240,7 +243,7 @@ flowchart TD
 
     subgraph AgentLoop["Agent Loop"]
         AL["stream LLM response"] --> TD{tool_use?}
-        TD -->|yes| PD["parallel dispatch"]
+        TD -->|yes| PD["parallel dispatch\n(Promise.all)"]
         TD -->|no| OUT[return text]
         PD --> AL
         AL --> CP["compact @ 80% context"]
@@ -264,32 +267,46 @@ flowchart TD
 ## File Layout
 
 ```
-nanoclaw/
-  __main__.py        # entry point
-  config.py          # Config dataclass + env overrides
-  permissions.py     # 3 modes + sensitive-path guard
-  hooks.py           # pre/post hook registry
-  agent/
-    loop.py          # the agent loop
-    compactor.py     # context compaction at 80% window
-    session.py       # JSONL append-only persistence
-  tools/
-    __init__.py      # Tool dataclass, parallel dispatch
-    files.py         # read_file / write_file / edit_file
-    shell.py         # run_bash
-    web.py           # web_fetch / web_search
-  memory/
-    workspace.py     # AGENTS.md / USER.md bootstrap + inject
+src/
+  main.ts                      # entry point — reads env, starts gateway
+  config.ts                    # Config interface + YAML load
+  permissions.ts               # PermissionPolicy, 3 modes, sensitive-path guard
+  hooks.ts                     # pre/post hook registry
+
   providers/
-    anthropic.py     # Anthropic SDK with backoff
-    openai.py        # OpenAI-compatible (OpenRouter etc.)
+    base.ts                    # Provider ABC, StreamResponse, ToolUse, ToolResult
+    anthropic.ts               # AnthropicProvider — backoff on 429/529
+    openai.ts                  # OpenAIProvider — converts tool schema to OpenAI format
+    index.ts                   # getProvider() factory
+
+  tools/
+    index.ts                   # Tool type, executeParallel(), buildRegistry()
+    files.ts                   # read_file, write_file, edit_file
+    shell.ts                   # run_bash (120s timeout)
+    web.ts                     # web_fetch (HTML stripped), web_search (DuckDuckGo)
+
+  agent/
+    loop.ts                    # run() — the agent loop
+    compactor.ts               # compact when estimated tokens > 80% context window
+    session.ts                 # JSONL append-only persistence per session_id
+
+  memory/
+    workspace.ts               # bootstrap AGENTS.md/USER.md, build system prompt
+
   gateway/
-    session.py       # SQLite-backed session store
-    router.py        # message → agent loop → deliver
+    index.ts                   # GatewayConfig, start()
+    session.ts                 # SessionStore — bun:sqlite-backed
+    router.ts                  # onMessage → lock → agent loop → chunk → deliver
     adapters/
-      telegram.py    # python-telegram-bot
-      slack.py       # slack_bolt socket mode
-      discord.py     # discord.py
+      base.ts                  # ChannelAdapter abstract class
+      telegram.ts              # grammy polling
+      slack.ts                 # @slack/bolt socket mode
+      discord.ts               # discord.js intents
+
+  ui/
+    App.tsx                    # React Ink root — gateway log + active sessions view
+    SessionPanel.tsx           # Per-session message stream
+    StatusBar.tsx              # Model · permission mode · uptime
 ```
 
 ---
@@ -298,10 +315,10 @@ nanoclaw/
 
 NanoClaw ships with two workspace files that persist across sessions:
 
-- **`~/.nanoclaw/workspace/AGENTS.md`** - operating instructions, task notes, agent persona. Injected as system prompt prefix.
-- **`~/.nanoclaw/workspace/USER.md`** - user profile, preferences. Injected after AGENTS.md.
+- **`~/.nanoclaw/workspace/AGENTS.md`** — operating instructions, task notes, agent persona. Injected as system prompt prefix.
+- **`~/.nanoclaw/workspace/USER.md`** — user profile, preferences. Injected after AGENTS.md.
 
-Edit these files to shape how the agent behaves. No vector store, no database - just files.
+Edit these files to shape how the agent behaves. No vector store, no database — just files.
 
 ---
 
@@ -309,10 +326,10 @@ Edit these files to shape how the agent behaves. No vector store, no database - 
 
 | Feature | Add it when... |
 |---|---|
-| Cron scheduler | Use `crontab` calling `python -m nanoclaw -p "..."` |
+| Cron scheduler | Use `crontab` calling `bun src/main.ts -p "..."` |
 | Multi-agent board | You have >1 agent profile needing coordination |
 | MCP servers | You hit a tool gap the 6 kernel tools can't cover |
-| Dashboard / TUI | Gateway is the interface; a TUI is orthogonal |
+| Dashboard / TUI | Gateway is the interface; the Ink UI is optional |
 | Skills / macros | `AGENTS.md` handles this at minimal scale |
 | Trajectory recording | You need RL training data |
 
