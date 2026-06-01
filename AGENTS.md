@@ -1,7 +1,7 @@
 # NanoClaw TypeScript Rewrite — Design Specification
 
 **Stack:** Bun + TypeScript + React Ink  
-**Target:** ~1,500 lines, same architecture as the Python version, zero non-source files changed.
+**Target:** ~2,000 lines, same architecture as the Python version, zero non-source files changed.
 
 ---
 

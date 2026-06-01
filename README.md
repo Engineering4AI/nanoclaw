@@ -1,12 +1,12 @@
 # 🦞 NanoClaw
 
 > Your personal AI assistant - like Hermes or OpenClaw, but distilled to its essentials.  
-> **~1,500 lines of TypeScript. No dashboard. No bloat. Just the loop.**
+> **~2,000 lines of TypeScript. No dashboard. No bloat. Just the loop.**
 
 <p>
   <a href="https://bun.sh"><img src="https://img.shields.io/badge/Bun-1.x+-111827?style=for-the-badge&logo=bun" alt="Bun 1.x+" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-111827?style=for-the-badge" alt="License" /></a>
-  <a href="#architecture"><img src="https://img.shields.io/badge/Lines-~1500-2563eb?style=for-the-badge" alt="Lines of code" /></a>
+  <a href="#architecture"><img src="https://img.shields.io/badge/Lines-~2000-2563eb?style=for-the-badge" alt="Lines of code" /></a>
 </p>
 
 ```
@@ -24,7 +24,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 | | NanoClaw | Claude Code CLI | Full agent framework |
 |---|---|---|---|
-| Lines of code | ~1,500 | ~50,000 | 10,000–200,000 |
+| Lines of code | ~2,000 | ~50,000 | 10,000–200,000 |
 | Chat platforms | Telegram · Slack · Discord | Terminal only | Varies |
 | State survives crash | ✅ JSONL + SQLite | ✅ | Depends |
 | Needs a database | ❌ SQLite built-in | ❌ | Often yes |
