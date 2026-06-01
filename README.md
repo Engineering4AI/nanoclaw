@@ -3,9 +3,11 @@
 > Your personal AI assistant - like Hermes or OpenClaw, but distilled to its essentials.  
 > **~1,500 lines of Python. No dashboard. No bloat. Just the loop.**
 
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://python.org)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Lines of code](https://img.shields.io/badge/lines-~1500-purple.svg)](#architecture)
+<p>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.11+-111827?style=for-the-badge&logo=python" alt="Python 3.11+" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-111827?style=for-the-badge" alt="License" /></a>
+  <a href="#architecture"><img src="https://img.shields.io/badge/Lines-~1500-2563eb?style=for-the-badge" alt="Lines of code" /></a>
+</p>
 
 ```
 User: "summarize the errors in app.log from the last 10 minutes"
