@@ -44,7 +44,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 <table align="center" width="100%">
 <tr>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="20%" align="center" style="vertical-align: top; padding: 12px;">
 
 ### 🔄 Agent Loop
 
@@ -52,13 +52,12 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
   <img src="https://img.shields.io/badge/Engine-06B6D4?style=for-the-badge&logoColor=white" alt="Engine" />
 </div>
 
-**• Streaming tool-call loop**  
-**• Parallel tool dispatch**  
-**• 429/529 retry backoff**  
-**• Token-limit guard**
+<small>• Streaming tool-call loop</small><br/>
+<small>• Parallel tool dispatch</small><br/>
+<small>• Retry backoff + token guard</small>
 
 </td>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="20%" align="center" style="vertical-align: top; padding: 12px;">
 
 ### 🛠 Kernel Tools
 
@@ -66,112 +65,48 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
   <img src="https://img.shields.io/badge/Tools-10B981?style=for-the-badge&logoColor=white" alt="Tools" />
 </div>
 
-**• File read / write / edit**  
-**• Shell execution (120s timeout)**  
-**• Web fetch (HTML stripped)**  
-**• Web search (DuckDuckGo)**
+<small>• File read / write / edit</small><br/>
+<small>• Shell execution</small><br/>
+<small>• Web fetch + web search</small>
 
 </td>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="20%" align="center" style="vertical-align: top; padding: 12px;">
 
-### 🔐 Permissions
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Safety-F59E0B?style=for-the-badge&logoColor=white" alt="Safety" />
-</div>
-
-**• Default: prompt on write/shell**  
-**• Auto: allow all (CI/sandbox)**  
-**• Plan: read-only mode**  
-**• Blocks `~/.ssh` and `~/.aws` reads**
-
-</td>
-</tr>
-<tr>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-
-### 💬 Multi-Platform Gateway
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Gateway-EC4899?style=for-the-badge&logoColor=white" alt="Gateway" />
-</div>
-
-**• Telegram, Slack, and Discord**  
-**• Two-method adapter interface**  
-**• One lock per peer**  
-**• Chunked delivery for long replies**
-
-</td>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-
-### 🔌 Multi-Provider
+### 🔌 Provider Abstraction
 
 <div align="center">
   <img src="https://img.shields.io/badge/Providers-3B82F6?style=for-the-badge&logoColor=white" alt="Providers" />
 </div>
 
-**• Anthropic (Claude)**  
-**• OpenAI**  
-**• OpenAI-compatible endpoints**  
-**• OpenRouter and local Ollama**
+<small>• Anthropic + OpenAI</small><br/>
+<small>• OpenAI-compatible endpoints</small><br/>
+<small>• OpenRouter + local Ollama</small>
 
 </td>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="20%" align="center" style="vertical-align: top; padding: 12px;">
 
-### ♻️ Crash Recovery
+### 🔐 Safety & Permissions
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Safety-F59E0B?style=for-the-badge&logoColor=white" alt="Safety" />
+</div>
+
+<small>• Prompt / auto / read-only modes</small><br/>
+<small>• Denied-command prefix matching</small><br/>
+<small>• Blocks credential path reads</small>
+
+</td>
+<td width="20%" align="center" style="vertical-align: top; padding: 12px;">
+
+### ♻️ State & Recovery
 
 <div align="center">
   <img src="https://img.shields.io/badge/Resilience-84CC16?style=for-the-badge&logoColor=white" alt="Resilience" />
 </div>
 
-**• Isolated OS process per run**  
-**• No shared in-process state**  
-**• External coordination state**  
-**• Resume from crash point**
-
-</td>
-</tr>
-<tr>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-
-### 📦 Context & Memory
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Memory-8B5CF6?style=for-the-badge&logoColor=white" alt="Memory" />
-</div>
-
-**• Auto-compact at 80% context**  
-**• Per-session JSONL audit trail**  
-**• Workspace files: `AGENTS.md` / `USER.md`**  
-**• SQLite-backed restart recovery**
-
-</td>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-
-### 🔒 Secure by Default
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Security-EF4444?style=for-the-badge&logoColor=white" alt="Security" />
-</div>
-
-**• No `HTTP_PROXY` inheritance**  
-**• Opt-in proxy via env var**  
-**• Credential path protections**  
-**• Denied-command prefix matching**
-
-</td>
-<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-
-### ⏰ Cron Scheduler
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Cron-F97316?style=for-the-badge&logoColor=white" alt="Cron" />
-</div>
-
-**• `NANOCLAW_CRON` env var**  
-**• Interval or `*/N * * * *` syntax**  
-**• Runs agent loop unattended**  
-**• Multiple jobs, `;`-separated**
+<small>• Isolated OS process per run</small><br/>
+<small>• External coordination state</small><br/>
+<small>• JSONL + SQLite restart recovery</small>
 
 </td>
 </tr>
