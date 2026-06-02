@@ -27,8 +27,8 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 | Lines of code | ~2,000 | ~50,000 | 10,000–200,000 |
 | Chat platforms | Telegram · Slack · Discord | Terminal only | Varies |
 | State survives crash | ✅ JSONL + SQLite | ✅ | Depends |
-| Needs a database | ❌ SQLite built-in | ❌ | Often yes |
-| Cron / dashboard | ❌ (use real cron) | ❌ | Often yes |
+| Needs a database | ❌ | ❌ | Often yes |
+| Cron / dashboard | ❌ | ❌ | Often yes |
 
 ---
 
