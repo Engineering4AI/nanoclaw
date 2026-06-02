@@ -6,7 +6,7 @@
 *.local.md
 *.egg-info
 
-external/
+externals/
 __pycache__/
 
 # TypeScript / Bun
