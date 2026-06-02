@@ -31,7 +31,6 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 | Config | Single `.env` file | JSON5 config + `openclaw onboard` wizard | `hermes setup` wizard + `hermes config set` |
 | Context compaction | ✅ auto at 80% | ✅ `/compact` | ✅ `/compress` |
 | Per-peer concurrency | ✅ single-slot pending buffer (newest wins) | ✅ | ✅ |
-| Built-in cron | ✅ `NANOCLAW_CRON` env var | ✅ | ✅ |
 | Voice | ❌ | ✅ wake word + talk mode (macOS · iOS · Android) | ❌ (memo transcription only) |
 | Subagents | ❌ | ✅ multi-agent routing | ✅ spawn isolated subagents |
 | Self-improvement | ❌ | ❌ | ✅ (DSPy + GEPA) |
