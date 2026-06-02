@@ -85,7 +85,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 </td>
 <td width="20%" align="center" style="vertical-align: top; padding: 12px;">
 
-### 🔐 Safety & Permissions
+### 🔐 Safety &amp; Permissions
 
 <div align="center">
   <img src="https://img.shields.io/badge/Safety-F59E0B?style=for-the-badge&logoColor=white" alt="Safety" />
