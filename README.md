@@ -98,7 +98,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 </td>
 <td width="20%" align="center" style="vertical-align: top; padding: 12px;">
 
-### ♻️ State & Recovery
+### ♻️ State &amp; Recovery
 
 <div align="center">
   <img src="https://img.shields.io/badge/Resilience-84CC16?style=for-the-badge&logoColor=white" alt="Resilience" />
