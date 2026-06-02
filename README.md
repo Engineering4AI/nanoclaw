@@ -29,7 +29,6 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 | Chat platforms | 3 (TG · Slack · Discord) | 20+ (WhatsApp · Signal · iMessage · WeChat · IRC · …) | 6 (TG · Discord · Slack · WhatsApp · Signal · CLI) |
 | Install | `bun install` | `npm install -g openclaw` + onboard wizard | `curl … \| bash` installer |
 | Config | Single `.env` file | JSON5 config + `openclaw onboard` wizard | `hermes setup` wizard + `hermes config set` |
-| Context compaction | ✅ auto at 80% | ✅ `/compact` | ✅ `/compress` |
 | Per-peer concurrency | ✅ single-slot pending buffer (newest wins) | ✅ | ✅ |
 | Voice | ❌ | ✅ wake word + talk mode (macOS · iOS · Android) | ❌ (memo transcription only) |
 | Subagents | ❌ | ✅ multi-agent routing | ✅ spawn isolated subagents |
