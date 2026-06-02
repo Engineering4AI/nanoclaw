@@ -14,7 +14,7 @@ User: "summarize the errors in app.log from the last 10 minutes"
 Bot:  [reads file] [runs grep] → "Found 3 ERROR lines: connection timeout (×2), OOM at 14:32"
 ```
 
-![NanoClaw in action](legacy/imgs/preface.png)
+![NanoClaw in action](imgs/preface.png)
 
 ---
 

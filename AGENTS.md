@@ -254,18 +254,32 @@ Uses `bun:sqlite` — Bun's built-in SQLite binding, no external dep.
 ```typescript
 import { Database } from "bun:sqlite";
 
-// DDL is identical to Python version
-const DDL = `
+// Two-table schema: sessions (metadata) + messages (append-only rows)
+const SESSIONS_DDL = `
   CREATE TABLE IF NOT EXISTS sessions (
-    id TEXT PRIMARY KEY,
-    peer_id TEXT NOT NULL,
-    channel TEXT NOT NULL,
-    messages TEXT NOT NULL DEFAULT '[]',
+    id          TEXT PRIMARY KEY,
+    peer_id     TEXT NOT NULL,
+    channel     TEXT NOT NULL,
     last_active TEXT NOT NULL
   );
   CREATE INDEX IF NOT EXISTS idx_peer_channel ON sessions(peer_id, channel);
 `;
+
+const MESSAGES_DDL = `
+  CREATE TABLE IF NOT EXISTS messages (
+    session_id TEXT NOT NULL,
+    seq        INTEGER NOT NULL,
+    role       TEXT NOT NULL,
+    content    TEXT NOT NULL,
+    PRIMARY KEY (session_id, seq),
+    FOREIGN KEY (session_id) REFERENCES sessions(id)
+  );
+`;
 ```
+
+`save()` only inserts **new messages** (tracked via an in-memory `flushedCount` map) and runs fire-and-forget via `queueMicrotask` — O(1) per turn regardless of history length.
+
+Auto-migration: on startup, if the old `messages TEXT` column exists on `sessions`, the store recreates the table and migrates blobs into rows transparently.
 
 Session expiry logic (idle hours + daily reset at 04:00) is identical.
 
