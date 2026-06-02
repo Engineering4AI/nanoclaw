@@ -153,7 +153,8 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 </td>
 <td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-
+  <!-- Intentionally empty to preserve 3×3 grid layout -->
+  &nbsp;
 </td>
 </tr>
 </table>
