@@ -289,27 +289,32 @@ Session expiry logic (idle hours + daily reset at 04:00) is identical.
 
 ## Gateway Router (`gateway/router.ts`)
 
-Per-peer lock: use a `Map<string, Promise<void>>` mutex chain — the idiomatic JS pattern replacing `asyncio.Lock`:
+Per-peer mutex with a **single-slot pending buffer**: if a turn is already running for a peer, the latest incoming message is stored in `_pending` (newest wins, prior pending is overwritten). When the running turn finishes, it drains the slot once before releasing the lock.
 
 ```typescript
-// One-lock-per-peer using promise chaining (no external dep needed)
 const _locks = new Map<string, Promise<void>>();
+const _pending = new Map<string, () => Promise<void>>();
 
-async function withLock(key: string, fn: () => Promise<void>): Promise<void> {
-  const prev = _locks.get(key) ?? Promise.resolve();
+function withLock(key: string, fn: () => Promise<void>): Promise<void> {
+  const current = _locks.get(key);
+  if (current !== undefined) {
+    _pending.set(key, fn);  // newest wins
+    return current;
+  }
   let resolve!: () => void;
   const next = new Promise<void>(r => { resolve = r; });
   _locks.set(key, next);
-  try {
-    await prev;
-    await fn();
-  } finally {
-    resolve();
-  }
+  const run = async () => {
+    try {
+      await fn();
+      const queued = _pending.get(key);
+      if (queued) { _pending.delete(key); await queued(); }
+    } finally { _locks.delete(key); resolve(); }
+  };
+  return run();
 }
 ```
 
-Drop (not queue) if lock is already held — same behavior as Python.  
 `_chunkResponse()` logic is identical: split at `\n\n` boundaries, ≤1000 chars per chunk.
 
 ---
@@ -445,7 +450,7 @@ Cron jobs always run in `auto` permission mode (unattended; no interactive promp
 3. **Permissions raise, never block silently** — `PermissionDenied` (hard stop) vs `PermissionRequired` (caller decides).
 4. **`webFetch`/`webSearch` never inherit `HTTP_PROXY`** — proxy only via `NANOCLAW_WEB_PROXY` env var; embedded credentials in proxy URL rejected.
 5. **Compaction at 80%** — keeps system prompt + last 4 turns, summarizes the middle via a second LLM call.
-6. **One lock per peer** — drop (not queue) concurrent messages. Prevents pile-up.
+6. **One lock per peer with single-slot pending buffer** — newest-wins while a turn runs; drains once on completion. No pile-up, no lost last message.
 7. **Sessions survive restarts** — SQLite via `bun:sqlite`; JSONL audit trail per session.
 8. **Block streaming** — ≤1000 chars per chunk, split at `\n\n`. Required for Telegram 4096-char limit.
 9. **Each agent run is an OS process** — no in-process subagent spawning. Coordination state lives outside the process.

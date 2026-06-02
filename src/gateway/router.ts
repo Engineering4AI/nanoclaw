@@ -16,17 +16,18 @@ export type OnMessageFn = (
   deliver: DeliverFn,
 ) => Promise<void>;
 
-// One-lock-per-peer using promise chaining (no external dep needed)
+// Per-peer mutex with single-slot pending buffer.
+// If a turn is running: store the latest fn in the slot (newest wins).
+// When the running turn finishes: drain the slot once, then release.
+// This prevents pile-up while ensuring the most recent message is never lost.
 const _locks = new Map<string, Promise<void>>();
+const _pending = new Map<string, () => Promise<void>>();
 
 function withLock(key: string, fn: () => Promise<void>): Promise<void> {
-  // Drop (not queue) if lock is already held
   const current = _locks.get(key);
   if (current !== undefined) {
-    // Check if still pending by seeing if an entry exists
-    // We use a sentinel approach: if the key exists, it's busy
-    console.log(`Dropping message from ${key} — turn already in progress`);
-    return Promise.resolve();
+    _pending.set(key, fn);
+    return current;
   }
 
   let resolve!: () => void;
@@ -38,6 +39,11 @@ function withLock(key: string, fn: () => Promise<void>): Promise<void> {
   const run = async (): Promise<void> => {
     try {
       await fn();
+      const queued = _pending.get(key);
+      if (queued) {
+        _pending.delete(key);
+        await queued();
+      }
     } finally {
       _locks.delete(key);
       resolve();
