@@ -36,7 +36,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 <table align="center" width="100%">
 <tr>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### 🔄 Agent Loop
 
@@ -50,7 +50,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Token-limit guard**
 
 </td>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### 🛠 Kernel Tools
 
@@ -64,7 +64,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Web search (DuckDuckGo)**
 
 </td>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### 🔐 Permissions
 
@@ -78,23 +78,9 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Blocks `~/.ssh` and `~/.aws` reads**
 
 </td>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
-
-### 📦 Context & Memory
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Memory-8B5CF6?style=for-the-badge&logoColor=white" alt="Memory" />
-</div>
-
-**• Auto-compact at 80% context**  
-**• Per-session JSONL audit trail**  
-**• Workspace files: `AGENTS.md` / `USER.md`**  
-**• SQLite-backed restart recovery**
-
-</td>
 </tr>
 <tr>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### 💬 Multi-Platform Gateway
 
@@ -108,7 +94,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Chunked delivery for long replies**
 
 </td>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### 🔌 Multi-Provider
 
@@ -122,7 +108,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• OpenRouter and local Ollama**
 
 </td>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### ♻️ Crash Recovery
 
@@ -136,7 +122,23 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Resume from crash point**
 
 </td>
-<td width="25%" align="center" style="vertical-align: top; padding: 15px;">
+</tr>
+<tr>
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
+
+### 📦 Context & Memory
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Memory-8B5CF6?style=for-the-badge&logoColor=white" alt="Memory" />
+</div>
+
+**• Auto-compact at 80% context**  
+**• Per-session JSONL audit trail**  
+**• Workspace files: `AGENTS.md` / `USER.md`**  
+**• SQLite-backed restart recovery**
+
+</td>
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 ### 🔒 Secure by Default
 
@@ -148,6 +150,9 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 **• Opt-in proxy via env var**  
 **• Credential path protections**  
 **• Denied-command prefix matching**
+
+</td>
+<td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
 
 </td>
 </tr>
