@@ -20,6 +20,7 @@ export interface Config {
   sessionsDir: string;
   permissionMode: string;
   webProxy: string;
+  cronJobs: string; // raw value of NANOCLAW_CRON; parsed by CronScheduler
 }
 
 function expandUser(p: string): string {
@@ -40,6 +41,7 @@ export function loadConfig(configPath: string = DEFAULT_CONFIG_PATH): Config {
     sessionsDir: DEFAULT_SESSIONS,
     permissionMode: "default",
     webProxy: "",
+    cronJobs: "",
   };
 
   if (existsSync(configPath)) {
@@ -75,6 +77,7 @@ export function loadConfig(configPath: string = DEFAULT_CONFIG_PATH): Config {
   if (process.env["NANOCLAW_PERMISSION_MODE"]) cfg.permissionMode = process.env["NANOCLAW_PERMISSION_MODE"];
   if (process.env["NANOCLAW_WEB_PROXY"]) cfg.webProxy = process.env["NANOCLAW_WEB_PROXY"];
   if (process.env["NANOCLAW_WORKSPACE"]) cfg.workspace = expandUser(process.env["NANOCLAW_WORKSPACE"]);
+  if (process.env["NANOCLAW_CRON"]) cfg.cronJobs = process.env["NANOCLAW_CRON"];
 
   return cfg;
 }

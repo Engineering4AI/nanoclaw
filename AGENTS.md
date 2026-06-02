@@ -25,8 +25,9 @@ Exact 1-to-1 mapping with the Python source. Every file has one job.
 
 ```
 src/
-  main.ts                      # __main__.py  — reads env, starts gateway
+  main.ts                      # __main__.py  — reads env, starts gateway, starts cron
   config.ts                    # config.py    — Config interface + YAML load
+  cron.ts                      # CronScheduler — interval/cron-expr jobs, parseCronEnv()
   permissions.ts               # permissions.py — PermissionPolicy, 3 modes
   hooks.ts                     # hooks.py     — pre/post hook registry
 
@@ -126,6 +127,7 @@ export interface Config {
   sessionsDir: string;      // default: "~/.nanoclaw/sessions"
   permissionMode: string;   // "default" | "auto" | "plan"
   webProxy: string;
+  cronJobs: string;         // raw NANOCLAW_CRON value; parsed by parseCronEnv()
 }
 ```
 
@@ -414,6 +416,28 @@ bun install discord.js         # + Discord
 
 ---
 
+## Cron Scheduler (`cron.ts`)
+
+Enabled via `NANOCLAW_CRON` env var. Format: semicolon-separated entries, each `SCHEDULE|PROMPT[|label]`.
+
+```
+NANOCLAW_CRON=30m|check disk usage and warn if >90%|disk;1h|summarize ~/app.log errors|logs
+```
+
+Schedule formats supported:
+
+| Format | Example | Meaning |
+|--------|---------|---------|
+| Interval | `30m`, `2h`, `90s` | Every N minutes/hours/seconds |
+| Cron (every N min) | `*/5 * * * *` | Every 5 minutes |
+| Cron (every N hours) | `0 */2 * * *` | Every 2 hours |
+
+`parseCronEnv(raw)` splits on `;`, returns `CronJob[]`.  
+`CronScheduler.start()` calls `setInterval` per job — no external dep.  
+Cron jobs always run in `auto` permission mode (unattended; no interactive prompt possible).
+
+---
+
 ## Invariants Preserved from Python Version
 
 1. **Agent loop owns nothing but its own turn** — `run()` takes `messages` + `Config`, returns `string`. No session/routing knowledge.
@@ -425,6 +449,7 @@ bun install discord.js         # + Discord
 7. **Sessions survive restarts** — SQLite via `bun:sqlite`; JSONL audit trail per session.
 8. **Block streaming** — ≤1000 chars per chunk, split at `\n\n`. Required for Telegram 4096-char limit.
 9. **Each agent run is an OS process** — no in-process subagent spawning. Coordination state lives outside the process.
+10. **Cron always runs in `auto` mode** — no interactive permission prompts; jobs must be safe to execute unattended.
 
 ---
 
@@ -438,13 +463,13 @@ bun install discord.js         # + Discord
 6. `src/gateway/session.ts` + `src/gateway/router.ts` + `src/gateway/index.ts`
 7. `src/gateway/adapters/` — telegram, slack, discord
 8. `src/ui/` — React Ink TUI (can be stubbed as a plain console logger until step 7 is done)
-9. `src/main.ts` — wire everything together
+9. `src/cron.ts` — CronScheduler, parseCronEnv
+10. `src/main.ts` — wire everything together
 
 ---
 
 ## What Does NOT Change
 
-- `legacy/` — Python source, read-only reference
 - `README.md`, `.env.example`, `pyproject.toml`, `.gitignore` — untouched
 - `~/.nanoclaw/` runtime directory layout — identical schema; SQLite DB and JSONL files are forward-compatible
 - Environment variable names — no renames; existing `.env` files work unchanged

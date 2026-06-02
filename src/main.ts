@@ -40,6 +40,7 @@ import { loadConfig } from "./config.ts";
 import { start } from "./gateway/index.ts";
 import type { ChannelAdapter } from "./gateway/adapters/base.ts";
 import type { GatewayState } from "./gateway/index.ts";
+import { CronScheduler, parseCronEnv } from "./cron.ts";
 
 function isRealToken(val: string | undefined): val is string {
   if (!val) return false;
@@ -92,6 +93,12 @@ async function main(): Promise<void> {
       "No adapters configured. Set TELEGRAM_TOKEN, SLACK_BOT_TOKEN/SLACK_APP_TOKEN, or DISCORD_TOKEN.",
     );
     process.exit(1);
+  }
+
+  if (config.cronJobs) {
+    const jobs = parseCronEnv(config.cronJobs);
+    const cron = new CronScheduler(jobs, config);
+    cron.start();
   }
 
   const isTTY = process.stdout.isTTY;

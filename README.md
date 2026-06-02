@@ -31,7 +31,7 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 | Config | Single `.env` file | JSON5 config + `openclaw onboard` wizard | `hermes setup` wizard + `hermes config set` |
 | Context compaction | ✅ auto at 80% | ✅ `/compact` | ✅ `/compress` |
 | Per-peer concurrency | ✅ drop-on-busy lock | ✅ | ✅ |
-| Built-in cron | ❌ | ✅ | ✅ |
+| Built-in cron | ✅ `NANOCLAW_CRON` env var | ✅ | ✅ |
 | Voice | ❌ | ✅ wake word + talk mode (macOS · iOS · Android) | ❌ (memo transcription only) |
 | Subagents | ❌ | ✅ multi-agent routing | ✅ spawn isolated subagents |
 | Self-improvement | ❌ | ❌ | ✅ (DSPy + GEPA) |
@@ -163,8 +163,18 @@ Most agent runtimes ship hundreds of abstractions, dozens of providers, and dash
 
 </td>
 <td width="33.33%" align="center" style="vertical-align: top; padding: 15px;">
-  <!-- Intentionally empty to preserve 3×3 grid layout -->
-  &nbsp;
+
+### ⏰ Cron Scheduler
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Cron-F97316?style=for-the-badge&logoColor=white" alt="Cron" />
+</div>
+
+**• `NANOCLAW_CRON` env var**  
+**• Interval or `*/N * * * *` syntax**  
+**• Runs agent loop unattended**  
+**• Multiple jobs, `;`-separated**
+
 </td>
 </tr>
 </table>
@@ -232,6 +242,9 @@ DISCORD_TOKEN=your-discord-bot-token
 
 # Agent behavior
 NANOCLAW_PERMISSION_MODE=default   # default | auto | plan
+
+# Cron jobs (optional) — semicolon-separated: SCHEDULE|PROMPT[|label]
+# NANOCLAW_CRON=30m|check disk usage and warn if above 90%|disk;1h|summarize today's errors in ~/app.log|logs
 ```
 
 Switch to Anthropic directly:
@@ -342,7 +355,6 @@ Edit these files to shape how the agent behaves. No vector store, no database �
 
 | Feature | Add it when... |
 |---|---|
-| Cron scheduler | Use `crontab` calling `bun src/main.ts -p "..."` |
 | Multi-agent board | You have >1 agent profile needing coordination |
 | MCP servers | You hit a tool gap the 6 kernel tools can't cover |
 | Dashboard / TUI | Gateway is the interface; the Ink UI is optional |
