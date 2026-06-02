@@ -22,13 +22,17 @@ Bot:  [reads file] [runs grep] → "Found 3 ERROR lines: connection timeout (×2
 
 Most agent runtimes ship hundreds of abstractions, dozens of providers, and dashboards you never open. NanoClaw is a **design**: the fewest moving parts that still make a capable, recoverable personal assistant.
 
-| | NanoClaw | Claude Code CLI | Full agent framework |
+| | NanoClaw | OpenClaw | Hermes Agent |
 |---|---|---|---|
-| Lines of code | ~2,000 | ~50,000 | 10,000–200,000 |
-| Chat platforms | Telegram · Slack · Discord | Terminal only | Varies |
-| State survives crash | ✅ JSONL + SQLite | ✅ | Depends |
-| Needs a database | ❌ | ❌ | Often yes |
-| Cron / dashboard | ❌ | ❌ | Often yes |
+| Lines of code | ~2,000 | ~500,000–800,000 | ~10,000–15,000 |
+| Runtime | Bun + TypeScript | TS · Swift · Kotlin · more | Python |
+| Chat platforms | 3 (TG · Slack · Discord) | 10+ (WhatsApp · Signal · iMessage · …) | 3 (TG · Slack · Discord) |
+| Install | `bun install` | Installer / app bundle | `pip install` |
+| Config | Single `.env` file | GUI + config files | YAML + env |
+| Context compaction | ✅ built-in at 80% | ✅ | ❌ |
+| Per-peer concurrency | ✅ drop-on-busy lock | ✅ | ❌ |
+| Self-improvement | ❌ | ❌ | ✅ (DSPy + GEPA) |
+| Hack-friendly | ✅ read in an afternoon | Needs weeks to orient | Moderate |
 
 ---
 
